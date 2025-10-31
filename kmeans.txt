@@ -1,0 +1,35 @@
+import pandas as pd
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Load dataset (change path if needed)
+data = pd.read_csv(r'E:\7thsemcodes\ML\sales_data_sample.csv')
+
+# Select only numeric columns for clustering
+X = data.select_dtypes(include=['number'])
+
+# ----- Step 1: Elbow Method -----
+wcss = []  # within-cluster sum of squares
+for k in range(1, 11):
+    model = KMeans(n_clusters=k, random_state=0)
+    model.fit(X)
+    wcss.append(model.inertia_)
+
+plt.plot(range(1, 11), wcss, marker='o')
+plt.title("Elbow Method")
+plt.xlabel("Number of Clusters (k)")
+plt.ylabel("WCSS")
+plt.show()
+
+# ----- Step 2: Apply K-Means (Choose k from Elbow, suppose k=3) -----
+kmeans = KMeans(n_clusters=3, random_state=0)
+data['Cluster'] = kmeans.fit_predict(X)
+
+print(data[['ORDERNUMBER', 'SALES', 'Cluster']].head())
+
+# Optional: Scatter Plot (using two features)
+plt.scatter(data['SALES'], data['QUANTITYORDERED'], c=data['Cluster'])
+plt.xlabel("SALES")
+plt.ylabel("QUANTITY ORDERED")
+plt.title("K-Means Clustering")
+plt.show()
