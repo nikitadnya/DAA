@@ -4,9 +4,15 @@ recsteps = 0
 def iterfibo(n):
     global steps
     steps = 0
+    if n <= 0:
+        return []
+    elif n == 1:
+        return [0]
+    elif n == 2:
+        return [0, 1]
+    
     a, b = 0, 1
     arr = [a, b]
-
     for i in range(n - 2):
         steps += 1
         a, b = b, a + b
@@ -33,16 +39,20 @@ while True:
 
     ch = int(input("Enter your choice: "))
 
-    
-
-    if ch==1:
-            n = int(input("Enter number: "))
+    if ch == 1:
+        n = int(input("Enter number of terms: "))
+        if n < 0:
+            print("Please enter a non-negative number!")
+        else:
             result = iterfibo(n)
             print("Iterative Fibonacci:", result)
             print("Number of Steps:", steps)
 
-    elif ch==2:
-            n = int(input("Enter number: "))
+    elif ch == 2:
+        n = int(input("Enter number of terms: "))
+        if n < 0:
+            print("Please enter a non-negative number!")
+        else:
             recsteps = 0
             recseq = []
             for i in range(n):
@@ -50,9 +60,9 @@ while True:
             print("Recursive Fibonacci:", recseq)
             print("Number of Steps:", recsteps)
 
-    elif ch== 3:
-            print("Exiting program...")
-            break
+    elif ch == 3:
+        print("Exiting program...")
+        break
 
     else:
-            print("Invalid choice! Try again.")
+        print("Invalid choice! Try again.")
