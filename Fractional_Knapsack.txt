@@ -1,0 +1,65 @@
+def fractional_knap(capacity,values,weight):
+    ratio=[]
+    for i in range(len(values)):
+        ratio.append(values[i]/weight[i])
+
+    index=list(range(len(values)))
+    index.sort(key=lambda i: ratio[i], reverse=True)
+
+    total_value=0
+    taken=[]
+
+    for i in index:
+        if capacity>=weight[i]:
+            total_value+=values[i]
+            taken.append((i+1, weight[i], values[i], 1))
+            capacity-=weight[i]
+        else:
+            fraction=capacity/weight[i]
+            total_value+=values[i]*fraction
+            taken.append((i+1, weight[i]*fraction, values[i]*fraction, fraction))
+            break
+    return total_value, taken
+
+
+values=[]
+weight=[]
+capacity=0
+
+while True:
+    print("\n1. Enter Items")
+    print("2. Display Items")
+    print("3. Apply Fractional Knapsack")
+    print("4. Exit")
+    ch=int(input("Enter choice: "))
+
+    if ch==1:
+        values.clear()
+        weight.clear()
+        n=int(input("Enter number of items: "))
+        for i in range(n):
+            v=float(input(f"Enter value of item {i+1}: "))
+            w=float(input(f"Enter weight of item {i+1}: "))
+            values.append(v)
+            weight.append(w)
+        capacity=float(input("Enter capacity: "))
+
+    elif ch==2:
+        for i in range(len(values)):
+            print(f"Item {i+1}  Value = {values[i]}  Weight = {weight[i]}  Ratio = {values[i]/weight[i]}")
+
+    elif ch==3:
+        ans, taken = fractional_knap(capacity,values,weight)
+        print("Items Taken:")
+        for item, wt, val, frac in taken:
+            if frac==1:
+                print(f"Item {item}: Full Taken  Weight = {wt}  Value = {val}")
+            else:
+                print(f"Item {item}: Fraction {frac:.2f} Taken  Weight = {wt:.2f}  Value = {val:.2f}")
+        print("Maximum Value =", ans)
+
+    elif ch==4:
+        break
+
+    else:
+        print("Invalid choice")

@@ -1,0 +1,61 @@
+def issafe(board,row,col):
+    for i in range(row):
+        if board[i]==col or abs(board[i]-col)==abs(i-row):
+            return False
+    return True
+
+def nqueen(n):
+    board=[-1]*n
+    board[0]=1   
+    solution=[]
+
+    def solve(row):
+        if row==n:
+            solution.append(board[:])
+            return
+        for col in range(n):
+            if issafe(board,row,col):
+                board[row]=col
+                solve(row+1)
+                board[row]=-1  
+
+    solve(1)
+    return solution
+
+def print_board(board):
+    n=len(board)
+    for i in range(n):
+        for j in range(n):
+            print("Q" if board[i]==j else ".", end=" ")
+        print()
+    print()
+
+n = int(input("Enter number of queens: "))
+sol = nqueen(n)
+while True:
+   
+    print("\n----- N QUEENS MENU -----")
+    print("1. Show total number of solutions")
+    print("2. Show all solutions (print boards)")
+    print("3. Exit")
+
+    
+    
+    ch = int(input("Enter your choice: "))
+    if ch == 1:
+       
+        print("Total solutions:", len(sol))
+
+    elif ch == 2:
+        # n = int(input("Enter number of queens: "))
+        # sol = nqueen(n)
+        # print("Total solutions:", len(sol))
+        for s in sol:
+            print_board(s)
+
+    elif ch == 3:
+        print("Exiting... Goodbye!")
+        break
+
+    else:
+        print("Invalid choice! Please try again.")
